@@ -52,4 +52,8 @@ class Bishop
     move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
   end
 
+  def capture_legal?(move)
+    move_legal?(move)
+  end
+
 end

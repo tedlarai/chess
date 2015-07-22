@@ -46,7 +46,10 @@ describe Bishop do
           expect(bishop.move_legal?({from_row: 1, from_col: 2, to_row: 7, to_col: 8})).to be true
           expect(bishop.move_legal?({from_row: 2, from_col: 5, to_row: 6, to_col: 1})).to be true
         end
-        #it 'returns illegal moving outside the diagonal'
+        it 'returns illegal moving outside the diagonal' do
+          expect(bishop.move_legal?({from_row: 1, from_col: 3, to_row: 7, to_col: 8})).to be false
+          expect(bishop.move_legal?({from_row: 2, from_col: 5, to_row: 5, to_col: 1})).to be false
+        end
       end
     #  describe '#capture_legal?'do
 

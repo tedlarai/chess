@@ -37,3 +37,21 @@ describe Pawn do
     end
   end
 end
+
+describe Bishop do
+  let(:bishop) {Bishop.new('black')}
+    context 'when asked to' do
+      describe '#move_legal?' do
+        it 'returns true moving on a diagonal' do
+          expect(bishop.move_legal?({from_row: 1, from_col: 2, to_row: 7, to_col: 8})).to be true
+          expect(bishop.move_legal?({from_row: 2, from_col: 5, to_row: 6, to_col: 1})).to be true
+        end
+        #it 'returns illegal moving outside the diagonal'
+      end
+    #  describe '#capture_legal?'do
+
+    #  end
+
+    end
+
+end

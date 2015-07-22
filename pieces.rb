@@ -37,3 +37,19 @@ class Pawn
   end
 
 end
+
+class Bishop
+  def initialize(color)
+    @color = color
+    if color == "white"
+      @icon_code = "\u2657"
+    else
+      @icon_code = "\u265D"
+    end
+  end
+
+  def move_legal?(move)
+    move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
+  end
+
+end

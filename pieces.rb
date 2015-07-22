@@ -12,19 +12,27 @@ class Pawn
     end
   end
 
-  def move_legal?(move) #hash keys{:from_row :from_col ::from_row to_col}
+  def move_legal?(move) #hash keys{:from_row :from_col :from_row :to_col}
     if @color == "white"
-      if move[:from_row] == 2
+      if move[:from_row] == 2#starting position
        (move[:to_row] == move[:from_row] + 1 || move[:to_row] == move[:from_row] + 2) && move[:to_col] == move[:from_col]
       else #moved
         move[:to_row] == move[:from_row] + 1 && move[:to_col] == move[:from_col]
       end
     else #black
-      if move[:from_row] == 7
+      if move[:from_row] == 7 #starting position
         (move[:to_row] == move[:from_row] - 1 || move[:to_row] == move[:from_row] - 2) && move[:to_col] == move[:from_col]
       else #moved
         move[:to_row] == move[:from_row] - 1 && move[:to_col] == move[:from_col]
       end
+    end
+  end
+
+  def capture_legal?(move)
+    if @color == 'white'
+      move[:to_row] == move[:from_row] + 1 && (move[:to_col] == move[:from_col] + 1 || move[:to_col] == move[:from_col] - 1)
+    else#black
+      move[:to_row] == move[:from_row] - 1 && (move[:to_col] == move[:from_col] + 1 || move[:to_col] == move[:from_col] - 1)
     end
   end
 

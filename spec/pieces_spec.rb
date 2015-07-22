@@ -14,6 +14,26 @@ describe Pawn do
         expect(black_pawn.move_legal?({from_row: 5, from_col: 3, to_row: 4, to_col: 6})).to be false#wrong col
         expect(black_pawn.move_legal?({from_row: 6, from_col: 3, to_row: 4, to_col: 3})).to be false#moved before and tried to move 2
       end
+      it 'returns true if passed a legal move' do
+        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 3, to_col: 3})).to be true
+        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 4, to_col: 3})).to be true
+        expect(white_pawn.move_legal?({from_row: 5, from_col: 3, to_row: 6, to_col: 3})).to be true
+        expect(black_pawn.move_legal?({from_row: 7, from_col: 3, to_row: 5, to_col: 3})).to be true
+        expect(black_pawn.move_legal?({from_row: 7, from_col: 6, to_row: 6, to_col: 6})).to be true
+        expect(black_pawn.move_legal?({from_row: 6, from_col: 3, to_row: 5, to_col: 3})).to be true
+      end
+    end
+    describe '#capture_legal?' do
+      it 'returns true in a legal capture' do
+        expect(white_pawn.capture_legal?({from_row: 2, from_col: 2, to_row: 3, to_col: 3})).to be true
+        expect(white_pawn.capture_legal?({from_row: 4, from_col: 3, to_row: 5, to_col: 2})).to be true
+        expect(black_pawn.capture_legal?({from_row: 2, from_col: 1, to_row: 1, to_col: 2})).to be true
+        expect(black_pawn.capture_legal?({from_row: 4, from_col: 3, to_row: 3, to_col: 2})).to be true
+      end
+      it 'returns false in an illegal capture' do
+        expect(white_pawn.capture_legal?({from_row: 4, from_col: 3, to_row: 5, to_col: 3})).to be false
+        expect(black_pawn.capture_legal?({from_row: 2, from_col: 1, to_row: 1, to_col: 3})).to be false
+      end
     end
   end
 end

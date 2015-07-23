@@ -7,20 +7,20 @@ describe Pawn do
   context 'when asked about the legality of a move' do
     describe '#move_legal?' do
       it 'returns false if passed an illegal move' do
-        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 5, to_col: 3})).to be false#wrong row
-        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 4, to_col: 4})).to be false#wrong col
-        expect(white_pawn.move_legal?({from_row: 3, from_col: 3, to_row: 5, to_col: 3})).to be false#moved before and tried to move 2
-        expect(black_pawn.move_legal?({from_row: 7, from_col: 3, to_row: 4, to_col: 3})).to be false#wrong row
-        expect(black_pawn.move_legal?({from_row: 5, from_col: 3, to_row: 4, to_col: 6})).to be false#wrong col
-        expect(black_pawn.move_legal?({from_row: 6, from_col: 3, to_row: 4, to_col: 3})).to be false#moved before and tried to move 2
+        expect(white_pawn.move_legal?([[2, 3], [5, 3]])).to be false#wrong row
+        expect(white_pawn.move_legal?([[2, 3], [4, 4]])).to be false#wrong col
+        expect(white_pawn.move_legal?([[3, 3], [5, 3]])).to be false#moved before and tried to move 2
+        expect(black_pawn.move_legal?([[7, 3], [4, 3]])).to be false#wrong row
+        expect(black_pawn.move_legal?([[5, 3], [4, 6]])).to be false#wrong col
+        expect(black_pawn.move_legal?([[6, 3], [4, 3]])).to be false#moved before and tried to move 2
       end
       it 'returns true if passed a legal move' do
-        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 3, to_col: 3})).to be true
-        expect(white_pawn.move_legal?({from_row: 2, from_col: 3, to_row: 4, to_col: 3})).to be true
-        expect(white_pawn.move_legal?({from_row: 5, from_col: 3, to_row: 6, to_col: 3})).to be true
-        expect(black_pawn.move_legal?({from_row: 7, from_col: 3, to_row: 5, to_col: 3})).to be true
-        expect(black_pawn.move_legal?({from_row: 7, from_col: 6, to_row: 6, to_col: 6})).to be true
-        expect(black_pawn.move_legal?({from_row: 6, from_col: 3, to_row: 5, to_col: 3})).to be true
+        expect(white_pawn.move_legal?({from: {row: 2, col: 3}, to: {row: 3, col: 3}})).to be true
+        expect(white_pawn.move_legal?({from: {row: 2, col: 3}, to: {row: 4, col: 3}})).to be true
+        expect(white_pawn.move_legal?({from: {row: 5, col: 3}, to: {row: 6, col: 3}})).to be true
+        expect(black_pawn.move_legal?({from: {row: 7, col: 3}, to: {row: 5, col: 3}})).to be true
+        expect(black_pawn.move_legal?({from: {row: 7, col: 6}, to: {row: 6, col: 6}})).to be true
+        expect(black_pawn.move_legal?({from: {row: 6, col: 3}, to: {row: 5, col: 3}})).to be true
       end
     end
     describe '#capture_legal?' do

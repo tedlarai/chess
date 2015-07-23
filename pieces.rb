@@ -107,3 +107,24 @@ class Rook
   #
 
 end
+
+class Queen
+  def initialize(color)
+    @color = color
+    if color == "white"
+      @icon_code = "\u2656"
+    else
+      @icon_code = "\u265C"
+    end
+  end
+
+  def move_legal?(move)
+    l_bishop = move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
+    l_rook = move[:from_row] == move[:to_row] || move[:from_col] == move[:to_col]
+    l_bishop || l_rook
+  end
+
+  def capture_legal?(move)
+    move_legal?(move)
+  end
+end

@@ -1,4 +1,4 @@
-require_relative '../pieces.rb'
+require_relative '../pieces.rb' #{from_row: , from_col: , to_row: , to_col: }
 require 'spec_helper.rb'
 
 describe Pawn do
@@ -46,15 +46,49 @@ describe Bishop do
           expect(bishop.move_legal?({from_row: 1, from_col: 2, to_row: 7, to_col: 8})).to be true
           expect(bishop.move_legal?({from_row: 2, from_col: 5, to_row: 6, to_col: 1})).to be true
         end
-        it 'returns illegal moving outside the diagonal' do
+        it 'returns false moving outside the diagonal' do
           expect(bishop.move_legal?({from_row: 1, from_col: 3, to_row: 7, to_col: 8})).to be false
           expect(bishop.move_legal?({from_row: 2, from_col: 5, to_row: 5, to_col: 1})).to be false
         end
       end
-    #  describe '#capture_legal?'do
-
-    #  end
-
     end
+end
 
+describe Knight do
+  let(:knight) {Knight.new('white')}
+    context 'when asked to' do
+      describe '#move_legal?' do
+        it 'returns true when move legal' do
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 6, to_col: 5})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 6, to_col: 3})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 5, to_col: 6})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 5, to_col: 2})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 3, to_col: 6})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 3, to_col: 2})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 2, to_col: 5})).to be true
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 2, to_col: 3})).to be true
+        end
+        it 'returns false when move illegal' do
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 2, to_col: 2})).to be false
+          expect(knight.move_legal?({from_row: 4, from_col: 4, to_row: 4, to_col: 6})).to be false
+
+        end
+
+      end
+    end
+end
+
+describe Rook do
+  let(:rook) {Rook.new('white')}
+    context 'when asked to' do
+      describe '#move_legal?' do
+        it 'returns true when move legal' do
+          expect(rook.move_legal?({from_row: 5, from_col: 6, to_row: 5, to_col: 1})).to be true
+          expect(rook.move_legal?({from_row: 5, from_col: 6, to_row: 8, to_col: 6})).to be true
+        end
+        it 'returns false when move illegal' do
+          expect(rook.move_legal?({from_row: 5, from_col: 6, to_row: 3, to_col: 1})).to be false
+        end
+      end
+    end
 end

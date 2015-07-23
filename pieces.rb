@@ -6,7 +6,7 @@ class Pawn
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2659"
     else
       @icon_code = "\u265F"
@@ -43,7 +43,7 @@ class Bishop
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2657"
     else
       @icon_code = "\u265D"
@@ -64,7 +64,7 @@ class Knight
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2658"
     else
       @icon_code = "\u265E"
@@ -89,7 +89,7 @@ class Rook
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2656"
     else
       @icon_code = "\u265C"
@@ -116,7 +116,7 @@ class Queen
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2655"
     else
       @icon_code = "\u265B"
@@ -138,7 +138,7 @@ class King
   attr_reader(:icon_code)
   def initialize(color)
     @color = color
-    if color == "white"
+    if color == "black"
       @icon_code = "\u2654"
     else
       @icon_code = "\u265A"

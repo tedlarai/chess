@@ -129,22 +129,24 @@ class State
     f = "x|# x #|  x  |# x #|  x  |# x #|  x  |# x #|  x  |\n"
     g = " |#####|_____|#####|_____|#####|_____|#####|_____|\n"
 
+    board_show = (@board.map do |k,v|
+      if v.nil?
+        [k, " "]
+      else
+        [k,v.icon_code]
+      end
+    end).to_h
+
     print a
     for i in (1..8) do
-      if i % 2 == 1
+      x = 9-i
+      if x % 2 == 0
         print b
-        board_show = (@board.map do |k,v|
-          if v.nil?
-            [k, " "]
-          else
-            [k,v.icon_code]
-          end
-        end).to_h
-        print "#{i}|  #{board_show[[i,1]]}  |# #{board_show[[i,2]]} #|  #{board_show[[i,3]]}  |# #{board_show[[i,4]]} #|  #{board_show[[i,5]]}  |# #{board_show[[i,6]]} #|  #{board_show[[i,7]]}  |# #{board_show[[i,8]]} #|\n"
+        print "#{x}|  #{board_show[[x,1]]}  |# #{board_show[[x,2]]} #|  #{board_show[[x,3]]}  |# #{board_show[[x,4]]} #|  #{board_show[[x,5]]}  |# #{board_show[[x,6]]} #|  #{board_show[[x,7]]}  |# #{board_show[[x,8]]} #|\n"
         print d
       else
         print e
-        print "#{i}|# #{board_show[[i,1]]} #|  #{board_show[[i,2]]}  |# #{board_show[[i,3]]} #|  #{board_show[[i,4]]}  |# #{board_show[[i,5]]} #|  #{board_show[[i,6]]}  |# #{board_show[[i,7]]} #|  #{board_show[[i,8]]}  |\n"
+        print "#{x}|# #{board_show[[x,1]]} #|  #{board_show[[x,2]]}  |# #{board_show[[x,3]]} #|  #{board_show[[x,4]]}  |# #{board_show[[x,5]]} #|  #{board_show[[x,6]]}  |# #{board_show[[x,7]]} #|  #{board_show[[x,8]]}  |\n"
         print g
       end
     end

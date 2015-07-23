@@ -112,4 +112,12 @@ class State
 
   end
 
+  def move(from, to)
+    # 
+    #
+    #
+    #
+    #
+    #
+  end
 end

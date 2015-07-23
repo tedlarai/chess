@@ -19,7 +19,7 @@ class Player
 
   def format_move(input_move)
     output = input_move.split("")-[" "] #creates an array [from_row, from_col, to_row, to_col]
-    output_move = {from_row: map_row(output[0]), from_col: output[1], to_row: map_row(output[2]), to_col: output[3]}
+    output_move = [[map_row(output[0]), output[1].to_i], [map_row(output[2]), output[3].to_i]]
   end
 
   def map_row(row)
@@ -27,7 +27,7 @@ class Player
     letters.find_index(row)+1
   end
 
-  def move
+  def player_move
     input_move = nil
     loop do
       input_move = check_move(prompt_move)

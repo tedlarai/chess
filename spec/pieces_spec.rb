@@ -2,8 +2,8 @@ require_relative '../pieces.rb' #[, ], [, ]
 require 'spec_helper.rb'
 
 describe Pawn do
-  let(:white_pawn) {Pawn.new("white")]#[, ], [, ]
-  let(:black_pawn) {Pawn.new("black")]
+  let(:white_pawn) {Pawn.new("white")}#[, ], [, ]
+  let(:black_pawn) {Pawn.new("black")}
   context 'when asked about the legality of a move' do
     describe '#move_legal?' do
       it 'returns false if passed an illegal move' do
@@ -39,7 +39,7 @@ describe Pawn do
 end
 
 describe Bishop do
-  let(:bishop) {Bishop.new('black')]
+  let(:bishop) {Bishop.new('black')}
     context 'when asked to' do
       describe '#move_legal?' do
         it 'returns true moving on a diagonal' do
@@ -55,7 +55,7 @@ describe Bishop do
 end
 
 describe Knight do
-  let(:knight) {Knight.new('white')]
+  let(:knight) {Knight.new('white')}
     context 'when asked to' do
       describe '#move_legal?' do
         it 'returns true when move legal' do
@@ -79,7 +79,7 @@ describe Knight do
 end
 
 describe Rook do
-  let(:rook) {Rook.new('white')]
+  let(:rook) {Rook.new('white')}
     context 'when asked to' do
       describe '#move_legal?' do
         it 'returns true when move legal' do
@@ -94,7 +94,7 @@ describe Rook do
 end
 
 describe Queen do
-  let(:queen) {Queen.new('white')]
+  let(:queen) {Queen.new('white')}
     context 'when asked to' do
       describe '#move_legal?' do
         it 'returns true when move legal' do
@@ -111,7 +111,7 @@ describe Queen do
 end
 
 describe King do
-  let(:king) {King.new('white')]
+  let(:king) {King.new('white')}
     context 'when asked to' do
       describe '#move_legal?' do
         it 'returns true when move legal' do

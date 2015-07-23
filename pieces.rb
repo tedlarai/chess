@@ -12,27 +12,27 @@ class Pawn
     end
   end
 
-  def move_legal?(move) #hash keys{:from_row :from_col :from_row :to_col}
+  def move_legal?(from, to) #hash keys{:from_row :from_col :from_row :to_col}
     if @color == "white"
-      if move[:from_row] == 2#starting position
-       (move[:to_row] == move[:from_row] + 1 || move[:to_row] == move[:from_row] + 2) && move[:to_col] == move[:from_col]
+      if from[0] == 2#starting position
+       (to[0] == from[0] + 1 || to[0] == from[0] + 2) && to[1] == from[1]
       else #moved
-        move[:to_row] == move[:from_row] + 1 && move[:to_col] == move[:from_col]
+        to[0] == from[0] + 1 && to[1] == from[1]
       end
     else #black
-      if move[:from_row] == 7 #starting position
-        (move[:to_row] == move[:from_row] - 1 || move[:to_row] == move[:from_row] - 2) && move[:to_col] == move[:from_col]
+      if from[0] == 7 #starting position
+        (to[0] == from[0] - 1 || to[0] == from[0] - 2) && to[1] == from[1]
       else #moved
-        move[:to_row] == move[:from_row] - 1 && move[:to_col] == move[:from_col]
+        to[0] == from[0] - 1 && to[1] == from[1]
       end
     end
   end
 
-  def capture_legal?(move)
+  def capture_legal?(from, to)
     if @color == 'white'
-      move[:to_row] == move[:from_row] + 1 && (move[:to_col] == move[:from_col] + 1 || move[:to_col] == move[:from_col] - 1)
+      to[0] == from[0] + 1 && (to[1] == from[1] + 1 || to[1] == from[1] - 1)
     else#black
-      move[:to_row] == move[:from_row] - 1 && (move[:to_col] == move[:from_col] + 1 || move[:to_col] == move[:from_col] - 1)
+      to[0] == from[0] - 1 && (to[1] == from[1] + 1 || to[1] == from[1] - 1)
     end
   end
 
@@ -48,12 +48,12 @@ class Bishop
     end
   end
 
-  def move_legal?(move)
-    move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
+  def move_legal?(from, to)
+    from[0]-to[0] == from[1]-to[1] || from[0]-to[0] == -(from[1]-to[1])
   end
 
-  def capture_legal?(move)
-    move_legal?(move)
+  def capture_legal?(from, to)
+    move_legal?(from, to)
   end
 
 end
@@ -68,17 +68,17 @@ class Knight
     end
   end
 
-  def move_legal?(move)
+  def move_legal?(from, to)
     #divided in parts
-    a = (move[:from_row]-move[:to_row] == -2 && (move[:from_col]-move[:to_col] == -1 || move[:from_col]-move[:to_col] == 1))
-    b = (move[:from_row]-move[:to_row] == -1 && (move[:from_col]-move[:to_col] == -2 || move[:from_col]-move[:to_col] == 2))
-    c = (move[:from_row]-move[:to_row] ==  1 && (move[:from_col]-move[:to_col] == -2 || move[:from_col]-move[:to_col] == 2))
-    d = (move[:from_row]-move[:to_row] ==  2 && (move[:from_col]-move[:to_col] == -1 || move[:from_col]-move[:to_col] == 1))
+    a = (from[0]-to[0] == -2 && (from[1]-to[1] == -1 || from[1]-to[1] == 1))
+    b = (from[0]-to[0] == -1 && (from[1]-to[1] == -2 || from[1]-to[1] == 2))
+    c = (from[0]-to[0] ==  1 && (from[1]-to[1] == -2 || from[1]-to[1] == 2))
+    d = (from[0]-to[0] ==  2 && (from[1]-to[1] == -1 || from[1]-to[1] == 1))
     a||b||c||d
   end
 
-  def capture_legal?(move)
-    move_legal?(move)
+  def capture_legal?(from, to)
+    move_legal?(from, to)
   end
 end
 
@@ -92,15 +92,15 @@ class Rook
     end
   end
 
-  def move_legal?(move)
-    move[:from_row] == move[:to_row] || move[:from_col] == move[:to_col]
+  def move_legal?(from, to)
+    from[0] == to[0] || from[1] == to[1]
   end
 
-  def capture_legal?(move)
-    move_legal?(move)
+  def capture_legal?(from, to)
+    move_legal?(from, to)
   end
 
-  #def path(move) to queen, bishop and rook, returns an array with all tiles in their path, to test if they are jumping someone
+  #def path(from, to) to queen, bishop and rook, returns an array with all tiles in their path, to test if they are jumping someone
   #
   #
   #
@@ -118,14 +118,14 @@ class Queen
     end
   end
 
-  def move_legal?(move)
-    l_bishop = move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
-    l_rook = move[:from_row] == move[:to_row] || move[:from_col] == move[:to_col]
+  def move_legal?(from, to)
+    l_bishop = from[0]-to[0] == from[1]-to[1] || from[0]-to[0] == -(from[1]-to[1])
+    l_rook = from[0] == to[0] || from[1] == to[1]
     l_bishop || l_rook
   end
 
-  def capture_legal?(move)
-    move_legal?(move)
+  def capture_legal?(from, to)
+    move_legal?(from, to)
   end
 end
 
@@ -139,11 +139,11 @@ class King
     end
   end
 
-  def move_legal?(move)
-    (move[:from_row]-move[:to_row]).abs <=1 && (move[:from_col]-move[:to_col]).abs <=1
+  def move_legal?(from, to)
+    (from[0]-to[0]).abs <=1 && (from[1]-to[1]).abs <=1
   end
 
-  def capture_legal?(move)
-    move_legal?(move)
+  def capture_legal?(from, to)
+    move_legal?(from, to)
   end
 end

@@ -112,9 +112,9 @@ class Queen
   def initialize(color)
     @color = color
     if color == "white"
-      @icon_code = "\u2656"
+      @icon_code = "\u2655"
     else
-      @icon_code = "\u265C"
+      @icon_code = "\u265B"
     end
   end
 
@@ -122,6 +122,25 @@ class Queen
     l_bishop = move[:from_row]-move[:to_row] == move[:from_col]-move[:to_col] || move[:from_row]-move[:to_row] == -(move[:from_col]-move[:to_col])
     l_rook = move[:from_row] == move[:to_row] || move[:from_col] == move[:to_col]
     l_bishop || l_rook
+  end
+
+  def capture_legal?(move)
+    move_legal?(move)
+  end
+end
+
+class King
+  def initialize(color)
+    @color = color
+    if color == "white"
+      @icon_code = "\u2654"
+    else
+      @icon_code = "\u265A"
+    end
+  end
+
+  def move_legal?(move)
+    (move[:from_row]-move[:to_row]).abs <=1 && (move[:from_col]-move[:to_col]).abs <=1
   end
 
   def capture_legal?(move)

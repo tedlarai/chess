@@ -109,3 +109,23 @@ describe Queen do
       end
     end
 end
+
+describe King do
+  let(:king) {King.new('white')}
+    context 'when asked to' do
+      describe '#move_legal?' do
+        it 'returns true when move legal' do
+          expect(king.move_legal?({from_row: 5, from_col: 6, to_row: 5, to_col: 7})).to be true
+          expect(king.move_legal?({from_row: 7, from_col: 6, to_row: 8, to_col: 6})).to be true
+          expect(king.move_legal?({from_row: 1, from_col: 2, to_row: 2, to_col: 1})).to be true
+          expect(king.move_legal?({from_row: 2, from_col: 5, to_row: 1, to_col: 6})).to be true
+        end
+        it 'returns false when move illegal' do
+          expect(king.move_legal?({from_row: 5, from_col: 6, to_row: 5, to_col: 1})).to be false
+          expect(king.move_legal?({from_row: 5, from_col: 6, to_row: 8, to_col: 6})).to be false
+          expect(king.move_legal?({from_row: 1, from_col: 2, to_row: 7, to_col: 8})).to be false
+          expect(king.move_legal?({from_row: 2, from_col: 5, to_row: 6, to_col: 1})).to be false
+        end
+      end
+    end
+end

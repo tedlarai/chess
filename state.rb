@@ -64,52 +64,6 @@ class State
             end
           end
     end
-#    @board.map do |k, v|
-#      case k[0]
-#      when 1
-#        case k[1]
-#        when 1
-#          v = Rook.new("white")
-#        when 2
-#          v = Knight.new("white")
-#        when 3
-#          v = Bishop.new("white")
-#        when 4
-#          v = King.new("white")
-#        when 5
-#          v = Queen.new("white")
-#        when 6
-#          v = Bishop.new("white")
-#        when 7
-#          v = Knight.new("white")
-#        when 8
-#          v = Rook.new("white")
-#        end
-#      when 2
-#        v = Pawn.new('white')
-#      when 7
-#        v = Pawn.new('black')
-#      when 8
-#        case k[1]
-#        when 1
-#          v = Rook.new("black")
-#        when 2
-#          v = Knight.new("black")
-#        when 3
-#          v = Bishop.new("black")
-#        when 4
-#          v = King.new("black")
-#        when 5
-#          v = Queen.new("black")
-#        when 6
-#          v = Bishop.new("black")
-#        when 7
-#          v = Knight.new("black")
-#        when 8
-#          v = Rook.new("black")
-#        end
-#      end
-#    end
   end
 
   def in_bounds?(tile)#tile[row, col]
@@ -119,15 +73,15 @@ class State
   end
 
   def show
-    a = " " + "_" * 49 + "\n"
+    a = "   " + "_" * 49 + "\n"
 
-    b = " |     |#####|     |#####|     |#####|     |#####|\n"
+    b = "   |     |#####|     |#####|     |#####|     |#####|\n"
     c = "x|  x  |# x #|  x  |# x #|  x  |# x #|  x  |# x #|\n"
-    d = " |_____|#####|_____|#####|_____|#####|_____|#####|\n"
+    d = "   |_____|#####|_____|#####|_____|#####|_____|#####|\n"
 
-    e = " |#####|     |#####|     |#####|     |#####|     |\n"
+    e = "   |#####|     |#####|     |#####|     |#####|     |\n"
     f = "x|# x #|  x  |# x #|  x  |# x #|  x  |# x #|  x  |\n"
-    g = " |#####|_____|#####|_____|#####|_____|#####|_____|\n"
+    g = "   |#####|_____|#####|_____|#####|_____|#####|_____|\n"
 
     board_show = (@board.map do |k,v|
       if v.nil?
@@ -142,14 +96,20 @@ class State
       x = 9-i
       if x % 2 == 0
         print b
-        print "#{x}|  #{board_show[[x,1]]}  |# #{board_show[[x,2]]} #|  #{board_show[[x,3]]}  |# #{board_show[[x,4]]} #|  #{board_show[[x,5]]}  |# #{board_show[[x,6]]} #|  #{board_show[[x,7]]}  |# #{board_show[[x,8]]} #|\n"
+        print " #{x} |  #{board_show[[x,1]]}  |# #{board_show[[x,2]]} #|  #{board_show[[x,3]]}  |# #{board_show[[x,4]]} #|  #{board_show[[x,5]]}  |# #{board_show[[x,6]]} #|  #{board_show[[x,7]]}  |# #{board_show[[x,8]]} #|\n"
         print d
       else
         print e
-        print "#{x}|# #{board_show[[x,1]]} #|  #{board_show[[x,2]]}  |# #{board_show[[x,3]]} #|  #{board_show[[x,4]]}  |# #{board_show[[x,5]]} #|  #{board_show[[x,6]]}  |# #{board_show[[x,7]]} #|  #{board_show[[x,8]]}  |\n"
+        print " #{x} |# #{board_show[[x,1]]} #|  #{board_show[[x,2]]}  |# #{board_show[[x,3]]} #|  #{board_show[[x,4]]}  |# #{board_show[[x,5]]} #|  #{board_show[[x,6]]}  |# #{board_show[[x,7]]} #|  #{board_show[[x,8]]}  |\n"
         print g
       end
     end
+    puts
+    print "   "
+    for i in ("a".."h") do
+      print "   #{i}  "
+    end
+    print "\n\n"
 
   end
 

@@ -1,7 +1,6 @@
 require_relative './pieces.rb'
 
 class State
-  include Enumerable
   def initialize
     @board = gen_board
     fill_board
@@ -29,9 +28,9 @@ class State
             when 3
               @board[[r,c]] = Bishop.new("white")
             when 4
-              @board[[r,c]] = King.new("white")
-            when 5
               @board[[r,c]] = Queen.new("white")
+            when 5
+              @board[[r,c]] = King.new("white")
             when 6
               @board[[r,c]] = Bishop.new("white")
             when 7
@@ -52,9 +51,9 @@ class State
             when 3
               @board[[r,c]] = Bishop.new("black")
             when 4
-              @board[[r,c]] = King.new("black")
-            when 5
               @board[[r,c]] = Queen.new("black")
+            when 5
+              @board[[r,c]] = King.new("black")
             when 6
               @board[[r,c]] = Bishop.new("black")
             when 7
@@ -75,13 +74,13 @@ class State
   def show
     a = "   " + "_" * 49 + "\n"
 
-    b = "   |     |#####|     |#####|     |#####|     |#####|\n"
+    e = "   |     |#####|     |#####|     |#####|     |#####|\n"
     c = "x|  x  |# x #|  x  |# x #|  x  |# x #|  x  |# x #|\n"
-    d = "   |_____|#####|_____|#####|_____|#####|_____|#####|\n"
+    g = "   |_____|#####|_____|#####|_____|#####|_____|#####|\n"
 
-    e = "   |#####|     |#####|     |#####|     |#####|     |\n"
+    b = "   |#####|     |#####|     |#####|     |#####|     |\n"
     f = "x|# x #|  x  |# x #|  x  |# x #|  x  |# x #|  x  |\n"
-    g = "   |#####|_____|#####|_____|#####|_____|#####|_____|\n"
+    d = "   |#####|_____|#####|_____|#####|_____|#####|_____|\n"
 
     board_show = (@board.map do |k,v|
       if v.nil?
@@ -96,11 +95,11 @@ class State
       x = 9-i
       if x % 2 == 0
         print b
-        print " #{x} |  #{board_show[[x,1]]}  |# #{board_show[[x,2]]} #|  #{board_show[[x,3]]}  |# #{board_show[[x,4]]} #|  #{board_show[[x,5]]}  |# #{board_show[[x,6]]} #|  #{board_show[[x,7]]}  |# #{board_show[[x,8]]} #|\n"
+        print " #{x} |# #{board_show[[x,1]]} #|  #{board_show[[x,2]]}  |# #{board_show[[x,3]]} #|  #{board_show[[x,4]]}  |# #{board_show[[x,5]]} #|  #{board_show[[x,6]]}  |# #{board_show[[x,7]]} #|  #{board_show[[x,8]]}  |\n"
         print d
       else
         print e
-        print " #{x} |# #{board_show[[x,1]]} #|  #{board_show[[x,2]]}  |# #{board_show[[x,3]]} #|  #{board_show[[x,4]]}  |# #{board_show[[x,5]]} #|  #{board_show[[x,6]]}  |# #{board_show[[x,7]]} #|  #{board_show[[x,8]]}  |\n"
+        print " #{x} |  #{board_show[[x,1]]}  |# #{board_show[[x,2]]} #|  #{board_show[[x,3]]}  |# #{board_show[[x,4]]} #|  #{board_show[[x,5]]}  |# #{board_show[[x,6]]} #|  #{board_show[[x,7]]}  |# #{board_show[[x,8]]} #|\n"
         print g
       end
     end

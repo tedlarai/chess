@@ -37,6 +37,15 @@ class Pawn
     end
   end
 
+  def path(from, to)
+    path = []
+    if (from[0]-to[0]).abs == 2
+      path_row = (to[0]-from[0])/2 + from[0]
+      path << [path_row, from[1]]
+    end
+    return path
+  end
+
 end
 
 class Bishop

@@ -3,7 +3,7 @@ class Pieces
 end
 
 class Pawn
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"
@@ -49,7 +49,7 @@ class Pawn
 end
 
 class Bishop
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"
@@ -92,7 +92,7 @@ class Bishop
 end
 
 class Knight
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"
@@ -121,7 +121,7 @@ class Knight
 end
 
 class Rook
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"
@@ -154,7 +154,7 @@ class Rook
 end
 
 class Queen
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"
@@ -196,7 +196,7 @@ end
 
 
 class King
-  attr_reader(:icon_code)
+  attr_reader(:icon_code, :color)
   def initialize(color)
     @color = color
     if color == "black"

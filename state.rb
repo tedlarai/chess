@@ -110,13 +110,22 @@ class State
       print "   #{i}  "
     end
     print "\n\n"
+    message = ""
+    File.open('message.txt', 'r'){|f| message =  f.gets}
+    unless message.nil?
+      print "#{message} \n\n"
+    end
 
   end
 
   def move_legal?(from, to)
     # check if there is a piece on from
+    if from == to
+      File.open('message.txt', 'w+'){|f| f.write("Destination has to be different from origin try again!")}
+      return false
+    end
     if @board[from].nil?
-      puts "There is no piece on that tile!"
+      File.open('message.txt', 'w+'){|f| f.write("There is no piece on that tile! try again!")}
       return false
     else
       piece = @board[from]
@@ -124,7 +133,7 @@ class State
 
     # check in bounds
     unless in_bounds?(to)
-      puts "Destination tile out of bounds"
+      File.open('message.txt', 'w+'){|f| f.write("Destination tile out of bounds")}
       return false
     end
 
@@ -132,12 +141,16 @@ class State
     # check with Piece if movement legal
     if @board[to].nil? #no capture
       unless piece.move_legal?(from, to)
-        puts "#{piece.class} is not capable of this move!"
+        File.open('message.txt', 'w+'){|f| f.write("#{piece.class} is not capable of this move!")}
         return false
       end
     else #capture
+      if piece.color == @board[to].color
+        File.open('message.txt', 'w+'){|f| f.write("#{piece.class} cannot capture a piece of the same color!")}
+        return false
+      end
       unless piece.capture_legal?(from, to)
-        puts "#{piece.class} is not capable of this capture!"
+        File.open('message.txt', 'w+'){|f| f.write("#{piece.class} is not capable of this capture!")}
         return false
       end
     end
@@ -148,7 +161,7 @@ class State
     # see if not jumping anyone
     path.each do |tile|
       unless @board[tile].nil?
-        puts "#{piece.class} can't jump the #{@board[tile].class}"
+        File.open('message.txt', 'w+'){|f| f.write("#{piece.class} can't jump the #{@board[tile].class}")}
         return false
       end
     end
@@ -160,7 +173,7 @@ class State
     if piece.instance_of?(King)
       other_king_position = nil
       @board.each do |k,v|
-        if (v.instance_of(King) && !(v.equal?(piece)))
+        if (v.instance_of?(King) && !(v.equal?(piece)))
           other_king_position = k
           break
         end

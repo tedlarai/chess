@@ -4,6 +4,7 @@ require_relative './state.rb'
 class Game
 
   def initialize
+    File.open('message.txt', 'w+'){|f| f.write("")}
     @white = Player.new("white")
     @black = Player.new("black")
     @state = State.new
@@ -13,8 +14,8 @@ class Game
 
   def game_loop
     loop do
-      turn(active_player)
-      if won?(active_player)
+      turn(@active_player)
+      if won?(@active_player)
         break
       end
       toggle(@active_player)
@@ -41,8 +42,9 @@ class Game
         candidate_move = player.format_move(candidate_move)
       else
         next
-      if @state.move_legal?(candidate_move)
-        @state.move(candidate_move)
+      end
+      if @state.move_legal?(candidate_move[0], candidate_move[1])
+        @state.move(candidate_move[0], candidate_move[1])
         break
       else
         next

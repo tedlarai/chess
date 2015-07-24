@@ -14,7 +14,7 @@ class Player
     if move =~ /[a-z]\d\s[a-z]\d/
       return true
     else
-      puts "Invalid format, try again." ############### to file
+      File.open('message.txt', 'w+'){|f| f.write("Invalid format, try again!")} ############### to file
       return false
     end
   end

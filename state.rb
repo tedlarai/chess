@@ -112,12 +112,61 @@ class State
 
   end
 
-  def move(from, to)
-    # 
-    #
-    #
-    #
-    #
-    #
+  def move_legal?(from, to)
+    # check if there is a piece on from
+    if piece = @board[from].nil?
+      puts "There is no piece on that tile!"
+      return false
+    else
+
+    # check in bounds
+    unless in_bounds?(to)
+      puts "Destination tile out of bounds"
+      return false
+    end
+
+    # check if move or capture
+    # check with Piece if movement legal
+    if @board[to].nil? #no capture
+      unless piece.move_legal?(from, to)
+        puts "#{piece.class} is not capable of this move!"
+        return false
+      end
+    else #capture
+      unless piece.capture_legal?(from, to)
+        puts "#{piece.class} is not capable of this capture!"
+        return false
+      end
+    end
+
+    # Ask the path to teh Piece
+    path = piece.path(from, to)
+
+    # see if not jumping anyone
+    path.each do |tile|
+      unless @board[tile].nil?
+        puts "#{piece.class} can't jump the #{@board[tile].class}"
+        return false
+      end
+    end
+
+    # see if the move leaves own king in check
+    # TBI
+
+    # see if not leaving the king side by side with the other king
+    if piece.instance_of?(King)
+      other_king_position = nil
+      @board.each do |k,v|
+        if (v.instance_of(King) && !(v.equal?(piece)))
+          other_king_position = k
+          break
+        end
+      end
+      unless (other_king_position[0] - to[0]).abs > 1 || (other_king_position[1] - to[1]).abs > 1
+        puts "Kings too close, illegal move!!!"
+        return false
+      end
+    end
+    return true
   end
 end

@@ -180,5 +180,7 @@ class State
     @board[to] = @board[from]
     @board[from] = nil
   end
-  
+
+
+
 end

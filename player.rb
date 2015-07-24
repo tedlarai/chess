@@ -19,12 +19,12 @@ class Player
 
   def format_move(input_move)
     output = input_move.split("")-[" "] #creates an array [from_row, from_col, to_row, to_col]
-    output_move = [[map_row(output[0]), output[1].to_i], [map_row(output[2]), output[3].to_i]]
+    output_move = [[output[1].to_i, map_col(output[0])], [output[3].to_i, map_col(output[2])]]
   end
 
-  def map_row(row)
+  def map_col(col)
     letters = Array("a".."z")
-    letters.find_index(row)+1
+    letters.find_index(col)+1
   end
 
   def player_move

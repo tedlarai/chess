@@ -117,7 +117,7 @@ class State
     if piece = @board[from].nil?
       puts "There is no piece on that tile!"
       return false
-    else
+    end
 
     # check in bounds
     unless in_bounds?(to)

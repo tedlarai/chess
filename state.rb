@@ -4,6 +4,7 @@ class State
   def initialize
     @board = gen_board
     fill_board
+    @captured = []
   end
 
   def gen_board
@@ -114,9 +115,11 @@ class State
 
   def move_legal?(from, to)
     # check if there is a piece on from
-    if piece = @board[from].nil?
+    if @board[from].nil?
       puts "There is no piece on that tile!"
       return false
+    else
+      piece = @board[from]
     end
 
     # check in bounds
@@ -169,4 +172,13 @@ class State
     end
     return true
   end
+
+  def move(from, to)
+    unless @board[to].nil? ## capture
+      @captured << @board[to]
+    end
+    @board[to] = @board[from]
+    @board[from] = nil
+  end
+  
 end

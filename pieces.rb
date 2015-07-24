@@ -70,7 +70,7 @@ class Bishop
   def path(from, to)
     path = []
     path_rows = Bishop.path_range(from[0], to[0])
-    path_cols = Bishop.path_range(from[1], to[1])    
+    path_cols = Bishop.path_range(from[1], to[1])
     path_rows.each_with_index {|x,i| path << [x, path_cols[i]]}
     return path
   end
@@ -114,6 +114,10 @@ class Knight
   def capture_legal?(from, to)
     move_legal?(from, to)
   end
+
+  def path(from, to) #duckTyping, no path for knight
+    []
+  end
 end
 
 class Rook
@@ -135,11 +139,17 @@ class Rook
     move_legal?(from, to)
   end
 
-  #def path(from, to) to queen, bishop and rook, returns an array with all tiles in their path, to test if they are jumping someone
-  #
-  #
-  #
-  #
+  def path(from, to)
+    path = []
+    if from[0] == to[0]#same row
+      aux = Bishop.path_range(from[1], to[1])
+      aux.each {|x| path << [from[0], x]}
+    else#same col
+      aux = Bishop.path_range(from[0], to[0])
+      aux.each {|x| path << [x,from[1]]}
+    end
+    return path
+  end
 
 end
 
@@ -163,7 +173,27 @@ class Queen
   def capture_legal?(from, to)
     move_legal?(from, to)
   end
+
+  def path(from, to)
+    path = []
+    if from[0] == to[0] || from[1] == to[1] ##rook-like move
+      if from[0] == to[0]#same row
+        aux = Bishop.path_range(from[1], to[1])
+        aux.each {|x| path << [from[0], x]}
+      else#same col
+        aux = Bishop.path_range(from[0], to[0])
+        aux.each {|x| path << [x,from[1]]}
+      end
+      return path
+    else ##bishop like move
+      path_rows = Bishop.path_range(from[0], to[0])
+      path_cols = Bishop.path_range(from[1], to[1])
+      path_rows.each_with_index {|x,i| path << [x, path_cols[i]]}
+      return path
+    end
+  end
 end
+
 
 class King
   attr_reader(:icon_code)
@@ -183,4 +213,9 @@ class King
   def capture_legal?(from, to)
     move_legal?(from, to)
   end
+
+  def path(a,b)#duckTyping
+    []
+  end
+
 end

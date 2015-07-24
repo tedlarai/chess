@@ -9,12 +9,14 @@ class Player
     move = gets.chomp.downcase
   end
 
-  def check_move(move) #private
-      if move =~ /[a-z]\d\s[a-z]\d/
-        return move
-      else
-        puts "Invalid format, try again."
-      end
+
+  def move_legal?(move) #private
+    if move =~ /[a-z]\d\s[a-z]\d/
+      return true
+    else
+      puts "Invalid format, try again." ############### to file
+      return false
+    end
   end
 
   def format_move(input_move)
@@ -27,12 +29,4 @@ class Player
     letters.find_index(col)+1
   end
 
-  def player_move
-    input_move = nil
-    loop do
-      input_move = check_move(prompt_move)
-      break unless input_move.nil?
-    end
-    output_move = format_move(input_move)
-  end
 end

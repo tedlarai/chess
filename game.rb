@@ -34,7 +34,20 @@ class Game
   end
 
   def turn(player)
-    
+    loop do
+      @state.show
+      candidate_move = player.prompt_move
+      if player.move_legal?(candidate_move)
+        candidate_move = player.format_move(candidate_move)
+      else
+        next
+      if @state.move_legal?(candidate_move)
+        @state.move(candidate_move)
+        break
+      else
+        next
+      end
+    end
   end
 
 end

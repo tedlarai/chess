@@ -11,22 +11,21 @@ class Game
     @active_player = @white
   end
 
-
   def game_loop
     loop do
       turn(@active_player)
       if won?(@active_player)
         break
       end
-      toggle(@active_player)
+      toggle
     end
   end
 
-  def toggle(player)
-    if player == @white
-      player = @black
+  def toggle
+    if @active_player == @white
+      @active_player = @black
     else
-      player = @white
+      @active_player = @white
     end
   end
 
@@ -43,7 +42,7 @@ class Game
       else
         next
       end
-      if @state.move_legal?(candidate_move[0], candidate_move[1])
+      if @state.move_legal?(@active_player, candidate_move[0], candidate_move[1])
         @state.move(candidate_move[0], candidate_move[1])
         break
       else

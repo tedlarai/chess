@@ -118,17 +118,24 @@ class State
 
   end
 
-  def move_legal?(from, to)
-    # check if there is a piece on from
+  def move_legal?(player, from, to) ## I should put each of the sections bellow in its own method!!
+
     if from == to
       File.open('message.txt', 'w+'){|f| f.write("Destination has to be different from origin try again!")}
       return false
     end
+    # check if there is a piece on from
     if @board[from].nil?
       File.open('message.txt', 'w+'){|f| f.write("There is no piece on that tile! try again!")}
       return false
     else
       piece = @board[from]
+    end
+
+    #see if the same color of player
+    if player.color != piece.color
+      File.open('message.txt', 'w+'){|f| f.write("Not your piece!!")}
+      return false
     end
 
     # check in bounds
@@ -166,9 +173,6 @@ class State
       end
     end
 
-    # see if the move leaves own king in check
-    # TBI
-
     # see if not leaving the king side by side with the other king
     if piece.instance_of?(King)
       other_king_position = nil
@@ -183,6 +187,21 @@ class State
         return false
       end
     end
+
+    # see if the move leaves own king in check
+    save_board = @board.clone
+    move(from, to)
+    puts @board
+    if check?(player.color)
+      @board = save_board
+      puts @board
+      File.open('message.txt', 'w+'){|f| f.write("Leaving own king in check!!")}
+      return false
+    else
+      @board = save_board
+      puts @board
+    end
+
     return true
   end
 
@@ -194,6 +213,31 @@ class State
     @board[from] = nil
   end
 
+  def check?(king_color)
+    if king_color == "white"
+      other_color = "black"
+    else
+      other_color = "white"
+    end
 
+    ## find the king, store its position in king position
+    king_position = nil
+    @board.each do |k,v|
+      if v.instance_of?(King) && v.color == king_color
+        king_position = k
+        break
+      end
+    end
+
+    @board.each do |k,v|
+      if !(v.nil?) && v.color == other_color
+        if v.capture_legal?(k,king_position)
+          return true
+        end
+      end
+    end
+    return false
+
+  end
 
 end

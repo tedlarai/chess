@@ -240,4 +240,18 @@ class State
 
   end
 
+  def has_legal_moves?(player)
+    pieces_to_check = @board.select do |k,v|
+      !(v.nil?) && v.color == player.color
+    end
+    pieces_to_check.each do |k,v|
+      @board.each do |bk, bv|
+        if move_legal?(player, k, bk)
+          return true
+        end
+      end
+    end
+    return false
+  end
+
 end

@@ -1,1 +1,1 @@
-Leaving own king in check!!
+Invalid format, try again!

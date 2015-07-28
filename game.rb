@@ -9,12 +9,17 @@ class Game
     @black = Player.new("black")
     @state = State.new
     @active_player = @white
+    @not_active_player = @black
   end
 
   def game_loop
     loop do
       turn(@active_player)
-      if won?(@active_player)
+      check = @state.check?(@not_active_player.color)
+      if check
+        File.open('message.txt', 'w+'){|f| f.write("The #{@not_active_player.color} King is in check!")}
+      end
+      if game_end?(check)
         break
       end
       toggle
@@ -22,15 +27,19 @@ class Game
   end
 
   def toggle
-    if @active_player == @white
-      @active_player = @black
-    else
-      @active_player = @white
-    end
+    @active_player, @not_active_player = @not_active_player, @active_player
   end
 
-  def won?(player)
-    # FU, TBI
+  def game_end?(check)
+    ended = !(@state.has_legal_moves?(@not_active_player))
+    if ended && check
+      @result = "#{@active_player} is the winner!!"
+    elsif ended && !check
+      puts "enterded here!!"
+      puts "#{ended}"
+      @result = "It is a draw!"
+    end
+    ended
   end
 
   def turn(player)

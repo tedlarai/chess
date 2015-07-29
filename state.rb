@@ -114,6 +114,22 @@ class State #manage the state of the game (pieces positions and moves), checking
   end
 
   # from here, there will be a bunch of helper testing methods used by #move_legal?
+
+
+
+
+
+
+  def format_input_move(input)
+    output = input.split("")-[" "] #creates an array [from_row, from_col, to_row, to_col]
+    output_move = [[output[1].to_i, map_col(output[0])], [output[3].to_i, map_col(output[2])]]
+  end
+
+  def map_col(col)
+    letters = Array("a".."z")
+    letters.find_index(col)+1
+  end
+
   def move_to_different_tile?(from,to)
     if from == to
       File.open('message.txt', 'w+'){|f| f.write("Destination has to be different from origin try again!")}
@@ -133,7 +149,7 @@ class State #manage the state of the game (pieces positions and moves), checking
   end
 
   def piece_same_color_as_player?(piece, player)
-    if player.color != piece.color
+    if player != piece.color
       File.open('message.txt', 'w+'){|f| f.write("Not your piece!!")}
       return false
     else
@@ -161,7 +177,7 @@ class State #manage the state of the game (pieces positions and moves), checking
   end
 
   def not_capturing_own_piece?(player, to)
-    if capture_try?(to) && player.color == @board[to].color
+    if capture_try?(to) && player == @board[to].color
       File.open('message.txt', 'w+'){|f| f.write("Cannot capture a piece of the same color!")}
       return false
     else
@@ -219,8 +235,8 @@ class State #manage the state of the game (pieces positions and moves), checking
 
   def not_leaving_own_king_in_check?(player, from, to)
     save_board = @board.clone
-    move(from, to)
-    if king_in_check?(player.color)
+    change_pieces_position(from, to)
+    if king_in_check?(player)
       @board = save_board
       File.open('message.txt', 'w+'){|f| f.write("Leaving own king in check!!")}
       return false
@@ -247,7 +263,26 @@ class State #manage the state of the game (pieces positions and moves), checking
     return (move_to_different_tile?(from, to) && from_has_a_piece?(from) && piece_same_color_as_player?(piece, player) && to_in_bounds?(to) && not_capturing_own_piece?(player, to) && piece_capable_of_move?(piece, from, to) && not_jumping_other_pieces?(piece, from, to) && leaving_tile_between_kings?(piece, to) && not_leaving_own_king_in_check?(player, from, to))
   end
 
-  def move(from, to)
+  def move(player, action)
+    from_to = format_input_move(action)
+    from = from_to[0]
+    to = from_to[1]
+
+    if move_legal?(player, from, to)
+      #compute consequences (check, mate, draw)
+      change_pieces_position(from, to)
+      delivered_check = king_in_check?(other_color(player))
+      game_ended = has_legal_moves?(other_color(player))
+      return {moved: true, delivered_check: delivered_check, game_ended: game_ended}
+      #change the return
+      #show the results
+    else
+      return {moved: false}
+      #show message
+    end
+  end
+
+  def change_pieces_position(from, to)
     unless @board[to].nil? ## capture
       @captured << @board[to]
     end
@@ -257,25 +292,20 @@ class State #manage the state of the game (pieces positions and moves), checking
 
   def find_king_position(player)
     @board.each do |k,v|
-      if v.instance_of?(King) && v.color == player.color
+      if v.instance_of?(King) && v.color == player
         return k
       end
     end
   end
 
   def king_in_check?(player)
-    king_color = player.color
-    if king_color == "white"
-      other_color = "black"
-    else
-      other_color = "white"
-    end
+    other_player = other_color(player)
 
     king_position = find_king_position(player)
 
     @board.each do |k,v|
-      if !(v.nil?) && v.color == other_color
-        if move_legal?()
+      if !(v.nil?) && v.color == other_player
+        if move_legal?(other_player, k, king_position)
           return true
         end
       end
@@ -284,9 +314,17 @@ class State #manage the state of the game (pieces positions and moves), checking
 
   end
 
+  def other_color(color)
+    if color == "white"
+      "black"
+    else
+      "white"
+    end
+  end
+
   def has_legal_moves?(player)
     pieces_to_check = @board.select do |k,v|
-      !(v.nil?) && v.color == player.color
+      !(v.nil?) && v.color == player
     end
     pieces_to_check.each do |k,v|
       @board.each do |bk, bv|

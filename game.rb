@@ -1,28 +1,18 @@
-require_relative './player.rb'
+#require_relative './player.rb'
 require_relative './state.rb'
 
 class Game #responsibility: manage the flux of the game, mainly through game_loop
 
   def initialize
     File.open('message.txt', 'w+'){|f| f.write("")}
-    @white = Player.new("white")
-    @black = Player.new("black")
+    @active_player = "white"
+    @inactive_player = "black"
     @state = State.new
   end
 
   def game_loop
-    @active_player = @white
-    @not_active_player = @black
-
     loop do
-      turn(@active_player)
-      check = @state.king_in_check?(@not_active_player.color)
-      if check
-        File.open('message.txt', 'w+'){|f| f.write("The #{@not_active_player.color} King is in check!")}
-      end
-      if game_end?(check)
-        break
-      end
+      turn_results = turn(@active_player)
       switch
     end
   end
@@ -43,20 +33,23 @@ class Game #responsibility: manage the flux of the game, mainly through game_loo
     ended
   end
 
-  def turn(player) #could not find a better way to keep showing the board through the errors than bring the tests to this class.
+  def turn #could not find a better way to keep showing the board through the errors than bring the tests to this class.
     loop do
-      @state.show
-      candidate_move = player.prompt_move
-      if player.move_legal?(candidate_move)
-        candidate_move = player.format_move(candidate_move)
+      move_results = nil
+      action = prompt_action(@active_player)
+      if action =~ /[a-z]\d\s[a-z]\d/
+      #when "s"
+        #save game
+      #when 'q'
+        #quit game *** needs to dump this game
+      #when "valid_move"#{################}input =~ /[a-z]\d\s[a-z]\d/
+        move_results = @state.move(@active_player, action)
+        if move_results[:moved]
+          return move_results
+        end
       else
-        next
-      end
-      if @state.move_legal?(@active_player, candidate_move[0], candidate_move[1])
-        @state.move(candidate_move[0], candidate_move[1])
-        break
-      else
-        next
+        File.open('message.txt', 'w+'){|f| f.write("Invalid Option, try again")}
+        @state.show
       end
     end
   end

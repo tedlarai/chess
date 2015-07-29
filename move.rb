@@ -22,4 +22,16 @@ module Move
     end
   end
 
+  def format_input_move(input)
+    output = input.split("")-[" "] #creates an array [from_row, from_col, to_row, to_col]
+    output_move = [[output[1].to_i, map_col(output[0])], [output[3].to_i, map_col(output[2])]]
+  end
+
+  def map_col(col)
+    letters = Array("a".."z")
+    letters.find_index(col)+1
+  end
+
+
+  
 end

@@ -1,7 +1,7 @@
 require_relative './player.rb'
 require_relative './state.rb'
 
-class Game
+class Game #responsibility: manage the flux of the game, mainly through game_loop
 
   def initialize
     File.open('message.txt', 'w+'){|f| f.write("")}
@@ -43,7 +43,7 @@ class Game
     ended
   end
 
-  def turn(player) #could not find a better way to keep showing the board through the errors than bring the tests to this class, instead of making them inside their own. And it makes players not see state.
+  def turn(player) #could not find a better way to keep showing the board through the errors than bring the tests to this class.
     loop do
       @state.show
       candidate_move = player.prompt_move

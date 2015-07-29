@@ -113,7 +113,7 @@ class State #manage the state of the game (pieces positions and moves), checking
 
   end
 
-  # from here, there will be a bunch os helper testing methods used by #move_legal?
+  # from here, there will be a bunch of helper testing methods used by #move_legal?
   def move_to_different_tile?(from,to)
     if from == to
       File.open('message.txt', 'w+'){|f| f.write("Destination has to be different from origin try again!")}

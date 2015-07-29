@@ -1,1 +1,1 @@
-Pawn is not capable of this move!
+Invalid format, try again!

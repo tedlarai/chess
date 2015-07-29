@@ -8,25 +8,26 @@ class Game
     @white = Player.new("white")
     @black = Player.new("black")
     @state = State.new
-    @active_player = @white
-    @not_active_player = @black
   end
 
   def game_loop
+    @active_player = @white
+    @not_active_player = @black
+
     loop do
       turn(@active_player)
-      check = @state.check?(@not_active_player.color)
+      check = @state.king_in_check?(@not_active_player.color)
       if check
         File.open('message.txt', 'w+'){|f| f.write("The #{@not_active_player.color} King is in check!")}
       end
       if game_end?(check)
         break
       end
-      toggle
+      switch
     end
   end
 
-  def toggle
+  def switch
     @active_player, @not_active_player = @not_active_player, @active_player
   end
 
@@ -42,7 +43,7 @@ class Game
     ended
   end
 
-  def turn(player)
+  def turn(player) #could not find a better way to keep showing the board through the errors than bring the tests to this class, instead of making them inside their own. And it makes players not see state.
     loop do
       @state.show
       candidate_move = player.prompt_move

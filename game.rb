@@ -13,6 +13,9 @@ class Game #responsibility: manage the flux of the game, mainly through game_loo
   def game_loop
     loop do
       turn_results = turn
+      if turn_results == "quit"
+        return
+      end
       check_for_special_conditions(turn_results)
       if turn_results[:game_ended]
         break
@@ -38,7 +41,7 @@ class Game #responsibility: manage the flux of the game, mainly through game_loo
       @state.show
       action = prompt_action
       if action =~ /[a-z]\d\s[a-z]\d/
-      #when "s"
+
         #save game
       #when 'q'
         #quit game *** needs to dump this game
@@ -47,6 +50,10 @@ class Game #responsibility: manage the flux of the game, mainly through game_loo
         if move_results[:moved]
           return move_results
         end
+      elsif action == "s"
+        save_game
+      elsif action = "q"
+        return "quit"
       else
         File.open('message.txt', 'w+'){|f| f.write("Invalid Option, try again")}
       end
@@ -69,6 +76,14 @@ class Game #responsibility: manage the flux of the game, mainly through game_loo
     elsif turn_results[:game_ended] #draw
       File.open('message.txt', 'w+'){|f| f.write("#{@inactive_player.capitalize} do not have any valid move and the #{@inactive_player.capitalize} King is not in check. Boring draw...")}
     end
- end
+  end
 
+
+  def save_game
+    File.open('saved_game', 'w+') {|f| f.write(Marshal.dump(self))}
+  end
+
+  def quit_game
+
+  end
 end

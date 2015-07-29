@@ -18,7 +18,6 @@ class State #manage the state of the game (pieces positions and moves), checking
   end
 
   def fill_board
-    puts "hey!! fill_board!!"
     @board.keys.each do |r, c|
           case r
           when 1
@@ -114,10 +113,6 @@ class State #manage the state of the game (pieces positions and moves), checking
   end
 
   # from here, there will be a bunch of helper testing methods used by #move_legal?
-
-
-
-
 
 
   def format_input_move(input)
@@ -227,6 +222,8 @@ class State #manage the state of the game (pieces positions and moves), checking
       unless (other_king_position[0] - to[0]).abs > 1 || (other_king_position[1] - to[1]).abs > 1
         File.open('message.txt', 'w+'){|f| f.write("Kings too close!! Illegal move, try again!")}
         return false
+      else
+        true
       end
     else
       true
@@ -260,7 +257,7 @@ class State #manage the state of the game (pieces positions and moves), checking
     #leaving_tile_between_kings?
     #not_leaving_own_king_in_check?
 
-    return (move_to_different_tile?(from, to) && from_has_a_piece?(from) && piece_same_color_as_player?(piece, player) && to_in_bounds?(to) && not_capturing_own_piece?(player, to) && piece_capable_of_move?(piece, from, to) && not_jumping_other_pieces?(piece, from, to) && leaving_tile_between_kings?(piece, to) && not_leaving_own_king_in_check?(player, from, to))
+    return (move_to_different_tile?(from, to) && from_has_a_piece?(from) && piece_same_color_as_player?(piece, player) && to_in_bounds?(to) && not_capturing_own_piece?(player, to) && piece_capable_of_move?(piece, from, to) && not_jumping_other_pieces?(piece, from, to) && leaving_tile_between_kings?(piece, to) &&  not_leaving_own_king_in_check?(player, from, to))
   end
 
   def move(player, action)
@@ -269,10 +266,12 @@ class State #manage the state of the game (pieces positions and moves), checking
     to = from_to[1]
 
     if move_legal?(player, from, to)
+      #clear the error messages
+      File.truncate('message.txt', 0)
       #compute consequences (check, mate, draw)
       change_pieces_position(from, to)
       delivered_check = king_in_check?(other_color(player))
-      game_ended = has_legal_moves?(other_color(player))
+      game_ended = !(has_legal_moves?(other_color(player)))      
       return {moved: true, delivered_check: delivered_check, game_ended: game_ended}
       #change the return
       #show the results
